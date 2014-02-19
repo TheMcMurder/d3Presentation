@@ -21,8 +21,6 @@ var data2 = [
 var pie = new pieChart(pieChart_group, data)
 
 d3.select("#radio1").on("click", function(){
-	console.log('click')
-	console.log(data)
 	pie.dataset(data)
 })
 d3.select("#radio2").on("click", function(){
