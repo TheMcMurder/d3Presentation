@@ -5,11 +5,19 @@
 
 		<script src="../d3.v3/d3.v3.min.js" charset="utf-8"></script>
 		<script src='pieChart.js'></script>
+		<link rel='stylesheet' href='pie.css'></link>
 		<!-- // <script src='piChart2.js'></script> -->
 
 	</head>
 	<body>
+		<div width='500' class='control_div'>
+			<form>
+				<input class='radio' id='radio1' type='radio' name='dataset' value='1' checked>Data Set 1</input>
+				<input class='radio' id='radio2' type='radio' name='dataset' value='2'>Data Set 2</input>
+			</form>
+		</div>
 
+		<div class='svghere'></div>
 
 		<script src='main.js'></script>
 		<!-- // <script src='pi.js'></script> -->

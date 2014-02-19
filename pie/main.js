@@ -1,4 +1,4 @@
-var svg = d3.select('body').append('svg')
+var svg = d3.select('.svghere').append('svg')
 var pieChart_group = svg.append('g')
 
 
@@ -16,12 +16,23 @@ var data2 = [
 ] 
 
 
+
+
 var pie = new pieChart(pieChart_group, data)
 
-
-setTimeout(function(){
+d3.select("#radio1").on("click", function(){
+	console.log('click')
+	console.log(data)
+	pie.dataset(data)
+})
+d3.select("#radio2").on("click", function(){
 	pie.dataset(data2)
-}, 5000)
+})
+
+
+// setTimeout(function(){
+// 	pie.dataset(data2)
+// }, 5000)
 // pi.dataset()
 
 // setTimeout(function(){

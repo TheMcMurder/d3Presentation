@@ -1,0 +1,9 @@
+.control_div{
+	float:right; 
+	font-size:50px; 
+	font-family: Ubuntu;
+}
+.radio{
+	width: 3em;
+	height: 3em;
+}

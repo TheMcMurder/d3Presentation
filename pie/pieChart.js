@@ -19,18 +19,47 @@ pieChart.prototype = {
 		.outerRadius(this.radius - 10)
 		.innerRadius(this.radius - 90);
 		this.build_order = 0;
+		this.renderingFlag = false;
+		
 		
 		this.pie = pie = d3.layout.pie()
 		.value(function (d) {
 			return d[1];
 		});
 		this.container_group.attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+		
+
+		this.centerGroup = this.container_group.append("g")
+		// var rect = this.centerGroup.append('circle')
+		// .attr("cx", (150/2))
+		// .attr('cy', (150/2))
+		// .attr("r", 100)
+		// .style("fill", '#e4e5e5')
+		// .attr("opacity", '.5')
+		this.centerGroup.attr("transform", "translate(" + (-(150/2)) + "," + (-(150/2)) + ")")
+		this.DataValue = this.centerGroup.append("text")
+		.text("")
+		.attr("transform", "translate(" + ((150/2)) + "," + ((150/2)) + ")")
+		.style("text-anchor", "middle")
+		.style('font-size', 32)
+		.style("font-family", "Ubuntu")
+		this.DataName = this.centerGroup.append("text")
+		.text("")
+		.attr("transform", "translate(" + ((150/2)) + "," + ((150/2) + (150/4)) + ")")
+		.style("text-anchor", "middle")
+		.style("font-family", "Ubuntu")
+		.style('font-size', 18)
+
+
+
+
 		this.dataset(this.data)
 
 	},
 	tween: function(){
 		var arc = this.arc
 		var arcs = this.arcs
+		var center = this.center
 
 		
 
@@ -40,6 +69,8 @@ pieChart.prototype = {
 		arcs.transition()
 		.duration(1000)
 		.attrTween("d", tweenDonutChart)
+		
+		
 
 
 
@@ -64,6 +95,9 @@ pieChart.prototype = {
 
 
 		var arc = this.arc
+		var value = this.DataValue;
+		var name = this.DataName;
+		var renderingFlag = this.renderingFlag
 
 
 
@@ -78,8 +112,19 @@ pieChart.prototype = {
 		.attr('class', 'arc')
 		.attr("fill", function(d, i) { return color(i); })
 		.each(function (d){
-			console.log(d)
 			this._current = {startAngle: 0, endAngle: 0};
+		})
+
+		this.arcs.on('mouseover', function(d, i){
+			if(!renderingFlag){
+				center(d, i);	
+			}
+			
+		})
+
+		this.arcs.on('mouseout', function(){
+
+			off();
 		})
 		//update here
 		
@@ -89,12 +134,26 @@ pieChart.prototype = {
 		this.tween();
 
 		this.arcs.exit().remove();
+		this.renderingFlag = false;
+		renderingFlag = this.renderingFlag;
 
 
 
 		
+		function off(){
 
-		this.build_order ++;
+			value.text('')
+			name.text('')
+		}
+		function center(data, i){
+
+			value.text(data.data[1])
+			.attr("fill", color(i));
+			name.text(data.data[0])
+			.attr("fill", color(i));
+
+
+		}
 
 
 	},
