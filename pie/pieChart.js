@@ -13,6 +13,7 @@ pieChart.prototype = {
 		this.color = d3.scale.category20();
 		this.height = 500;
 		this.width = 500;
+		this.transition_time = 1000;
 		this.radius = 250;
 		this.container_group = container_group;
 		this.arc = d3.svg.arc()
@@ -67,7 +68,7 @@ pieChart.prototype = {
 
 		var build_order = this.build_order
 		arcs.transition()
-		.duration(1000)
+		.duration(this.transition_time)
 		.attrTween("d", tweenDonutChart)
 		
 		
@@ -98,6 +99,7 @@ pieChart.prototype = {
 		var value = this.DataValue;
 		var name = this.DataName;
 		var renderingFlag = this.renderingFlag
+		var data = this.data
 
 
 
@@ -133,11 +135,26 @@ pieChart.prototype = {
 
 		this.tween();
 
-		this.arcs.exit().remove();
+		this.arcs.exit()
+		.transition().duration(this.transition_time)
+		.attrTween("d", tweenOut)
+		.remove();
+
+
 		this.renderingFlag = false;
 		renderingFlag = this.renderingFlag;
 
+		function tweenOut(b, x) {
+			console.log(x)
+			console.log(data)
 
+			b.innerRadius = 0;
+			var i;
+			
+			i = d3.interpolate(b, {startAngle: 0, endAngle: 0})		
+
+			return function(t) { return arc(i(t)); };
+		}
 
 		
 		function off(){

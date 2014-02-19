@@ -12,7 +12,7 @@ var data2 = [
 ["Xbox One", 50],
 ["Playstation 4", 50],
 ["Sony 4kTV", 50]
-// ["Something", 250]
+// ["Something", 120]
 ] 
 
 
