@@ -131,13 +131,13 @@ pieChart.prototype = {
 		//update here
 		
 
-		// this.arcs.attr("d", arc)	
+		this.arcs.attr("d", arc)	
 
-		this.tween();
+		// this.tween();
 
 		this.arcs.exit()
-		.transition().duration(this.transition_time)
-		.attrTween("d", tweenOut)
+		// .transition().duration(this.transition_time)
+		// .attrTween("d", tweenOut)
 		.remove();
 
 

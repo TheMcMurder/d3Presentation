@@ -11,8 +11,8 @@ var data = [
 var data2 = [
 ["Xbox One", 50],
 ["Playstation 4", 50],
-["Sony 4kTV", 50]
-// ["Something", 120]
+["Sony 4kTV", 50],
+["Something", 120]
 ] 
 
 
