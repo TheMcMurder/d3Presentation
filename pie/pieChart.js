@@ -23,7 +23,7 @@ pieChart.prototype = {
 		this.renderingFlag = false;
 		
 		
-		this.pie = pie = d3.layout.pie()
+		this.pie = d3.layout.pie()
 		.value(function (d) {
 			return d[1];
 		});
