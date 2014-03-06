@@ -29,12 +29,15 @@
 	</body>
 	<script type='text/javascript'>
 
-		var data = {};
+		var data;
+
+
+		var parseDate = d3.time.format('%d-%b-%y').parse;
 
 		d3.csv("table.csv", function(mydata) {
 			mydata.forEach(function(d){
 				d.Close = +d.Close;
-				d.date = d.date;
+				d.date = parseDate(d.date);
 			})
 			data = mydata
 			dataReady()
@@ -50,8 +53,6 @@
 			var group = svg.append('g')
 			.attr("transform", "translate(50, 50)")
 
-
-			var parseDate = d3.time.format('%d-%b-%y').parse;
 
 
 			var x = d3.time.scale()
@@ -74,6 +75,10 @@
 			var line = d3.svg.line()
 		    	.x(function(d) {return x(d.date); })
 		    	.y(function(d) {return y(d.Close); });
+			// var line = d3.svg.area()
+		 //    	.x(function(d) {return x(d.date); })
+		 //    	.y0(chart_height)
+		 //    	.y1(function(d) {return y(d.Close); });
 
 
 			x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -95,6 +100,14 @@
 				.style("fill", 'none')
 				.attr('stroke-width', 1)
 				.attr('stroke', 'black')
+
+			var rect = group.append('rect')
+			.attr({'width': chart_width, 'height' : chart_height})
+			.style('fill', 'white')
+			.transition()
+			.duration(2500)
+			.attr("width", 0)
+			.attr("transform", "translate(" + chart_width + ",0)")
 
 			console.log('done')
 		}

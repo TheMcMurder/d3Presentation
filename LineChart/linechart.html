@@ -98,7 +98,7 @@
 			.attr("class", "y axis")
 			.call(yAxis)
 
-		group.append("path")
+		var path = group.append("path")
 			.data([data])
 			.attr("class", "line")
 			.attr("d", line)
