@@ -9,4 +9,4 @@ This code is for educational purposes only.
 
 -Authors:
 	Justin McMurdie (TheMcMurder)
-	James Stewart
+	James Stewart (JMStewart)

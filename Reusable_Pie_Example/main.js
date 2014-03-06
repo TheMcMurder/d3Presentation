@@ -5,14 +5,14 @@ var pieChart_group = svg.append('g')
 var data = [
 ["Xbox One", 100],
 ["Playstation 4", 15],
-["Sony 4kTV", 5]  
+["Toshiba 4kTV", 5]  
 ]  
 
 var data2 = [
 ["Xbox One", 50],
 ["Playstation 4", 50],
-["Sony 4kTV", 50],
-["Something", 120]
+["Toshiba 4kTV", 50],
+["Visual Studio 2013", 120]
 ] 
 
 

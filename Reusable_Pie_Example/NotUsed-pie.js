@@ -7,7 +7,7 @@ var data;
 data = [
 ["Xbox One", 100],
 ["Playstation 4", 15],
-["Sony 4kTV", 5]  
+["Toshiba 4kTV", 5]  
 ]  
 
 // data = d3.range(10).map(Math.random).sort(d3.descending);
