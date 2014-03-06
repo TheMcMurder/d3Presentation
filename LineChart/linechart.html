@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<style type="text/css">
+		.axis path,
+		.axis line {
+		  fill: none;
+		  stroke: #000;
+		  shape-rendering: crispEdges;
+		}
+
+		.axis path {
+		  display: none;
+		}
+
+		.line {
+		  fill: none;
+		  stroke: steelblue;
+		  stroke-width: 1.5px;
+		}
+
+	</style>
+	<head>
+		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+		<script src='../d3.v3/d3.v3.min.js' type='text/javascript'></script>
+		<title>D3js line chart</title>
+	</head>
+	<body>
+	
+	</body>
+	<script type='text/javascript'>
+
+		var data = 
+		[
+			['1-Jan-14', 50],
+			['1-Feb-14', 60],
+			['1-Mar-14', 70],
+			['1-Apr-14', 80],
+			['1-May-14', 90],
+			['1-Jun-14', 70],
+			['1-Jul-14', 50],
+			['1-Aug-14', 40],
+			['1-Sep-14', 80],
+			['1-Oct-14', 90],
+			['1-Nov-14', 20],
+			['1-Dec-14', 50]
+
+		]
+
+		var margin = {top: 20, right: 20, bottom: 30, left: 50}, width = 600, height = 600, chart_width = width - 100, chart_height = height - 100;
+
+		var svg = d3.select('body').append('svg')
+		.attr({'width': width, 'height' : height})
+
+		var group = svg.append('g')
+		.attr("transform", "translate(50, 50)")
+
+
+		var parseDate = d3.time.format('%d-%b-%y').parse;
+
+
+		var x = d3.time.scale()
+	    .range([0, chart_width]);
+
+		var y = d3.scale.linear()
+	    .range([chart_height, 0]);
+
+
+	    var xAxis = d3.svg.axis()
+			.scale(x)
+		    .orient('bottom')
+		    .tickFormat(d3.time.format('%b'));
+
+		var yAxis = d3.svg.axis()
+		    .scale(y)
+		    .orient('left');
+
+
+		var line = d3.svg.line()
+	    	.x(function(d) {return x(d[0]); })
+	    	.y(function(d) {return y(d[1]); });
+
+
+
+	    data.forEach(function(d){
+	    	
+	    	d[0] = parseDate(d[0])
+	    })
+
+		x.domain(d3.extent(data, function(d) { return d[0]; }));
+		y.domain(d3.extent(data, function(d) { return d[1]; }));
+
+		group.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + chart_height + ")")
+			.call(xAxis);
+
+		group.append("g")
+			.attr("class", "y axis")
+			.call(yAxis)
+
+		group.append("path")
+			.data([data])
+			.attr("class", "line")
+			.attr("d", line)
+			.style("fill", 'none')
+			.attr('stroke-width', 1)
+			.attr('stroke', 'black')
+
+	</script>
+</html>
