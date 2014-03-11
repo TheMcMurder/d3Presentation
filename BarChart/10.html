@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src='../d3.v3/d3.v3.min.js' type='text/javascript'></script>
+		<title>D3js bar chart</title>
+	</head>
+	<body>
+	
+	</body>
+	<script type='text/javascript'>
+
+var height = 800,
+    width = 800;
+
+var margin = {
+    top: 100,
+    right: 100,
+    bottom: 100,
+    left: 100
+}
+
+var chartHeight = height - margin.top - margin.bottom,
+    chartWidth = width - margin.left - margin.right,
+    chartX = margin.left,
+    chartY = margin.top,
+    barMarginPercent = 0.1;
+
+var data = [
+    ["A", 100],
+    ["B", 200],
+    ["C", 300],
+    ["D", 100],
+    ["E", 200],
+    ["F", 500]
+];
+
+var svg = d3.select("body")
+    .append("svg")
+    .attr("height", height)
+    .attr("width", width);
+
+var barChart = svg.append("g")
+    .attr("id", "barChart")
+    .attr("transform", "translate(" + chartX + "," + chartY + ")");
+
+var maxValue = d3.max(data, function(d){
+    return d[1];
+});
+
+var xScale = d3.scale.linear()
+    .domain([0, maxValue])
+    .range([0, chartWidth]);
+
+//var barHeight = chartHeight / data.length;
+//var barMargin = barHeight * barMarginPercent;
+//barHeight -= barMargin;
+
+var yScale = d3.scale.ordinal()
+    .domain(data.map(function(d){
+        return d[0];
+    }))
+    .rangeRoundBands([0, chartHeight], barMarginPercent);
+
+var bars = barChart.selectAll("rect.bar")
+    .data(data);
+
+bars.enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", 0)
+    .attr("y", function(d,i){
+        //return i * (barHeight + barMargin);
+        return yScale(d[0]);
+    })
+    //.attr("height", barHeight)
+    .attr("height", yScale.rangeBand())
+    .style("fill", "steelblue")
+    .attr("width", 0)
+    .transition()
+        .duration(500)
+        .delay(function(d,i){
+            return i * 50;
+        })
+        .attr("width", function(d){
+            return xScale(d[1]);
+        })
+
+bars.on("mouseover", function(){
+    d3.select(this)
+    .transition()
+        .style("fill", "darkred");
+}).on("mouseout", function(){
+    d3.select(this)
+        .transition()
+        .style("fill", "steelblue");
+})
+
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom");
+
+var xAxisGroup = svg.append("g")
+    .attr("id", "xAxisGroup")
+    .attr("transform", "translate(" + chartX + "," + (chartY + chartHeight) + ")")
+    .call(xAxis);
+
+xAxisGroup.selectAll("path, line")
+    .style("fill", "none")
+    .style("stroke", "black");
+
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left");
+
+var yAxisGroup = svg.append("g")
+    .attr("id", "yAxisGroup")
+    .attr("transform", "translate(" + chartX + "," + chartY + ")")
+    .call(yAxis);
+
+yAxisGroup.selectAll("path, line")
+    .style("fill", "none")
+    .style("stroke", "black");
+    
+	</script>
+</html>
