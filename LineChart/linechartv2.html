@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<style type="text/css">
+	<style type='text/css'>
 		.axis path,
 		.axis line {
 		  fill: none;
@@ -34,7 +34,7 @@
 
 		var parseDate = d3.time.format('%d-%b-%y').parse;
 
-		d3.csv("table.csv", function(mydata) {
+		d3.csv('table.csv', function(mydata) {
 			mydata.forEach(function(d){
 				d.Close = +d.Close;
 				d.date = parseDate(d.date);
@@ -51,7 +51,7 @@
 			.attr({'width': width, 'height' : height})
 
 			var group = svg.append('g')
-			.attr("transform", "translate(50, 50)")
+			.attr('transform', 'translate(50, 50)')
 
 
 
@@ -84,32 +84,32 @@
 			x.domain(d3.extent(data, function(d) { return d.date; }));
 			y.domain(d3.extent(data, function(d) { return d.Close; }));
 
-			group.append("g")
-				.attr("class", "x axis")
-				.attr("transform", "translate(0," + chart_height + ")")
+			group.append('g')
+				.attr('class', 'x axis')
+				.attr('transform', 'translate(0,' + chart_height + ')')
 				.call(xAxis);
 
-			group.append("g")
-				.attr("class", "y axis")
+			group.append('g')
+				.attr('class', 'y axis')
 				.call(yAxis)
 
-			group.append("path")
+			var path = group.append('path')
 				.data([data])
-				.attr("class", "line")
-				.attr("d", line)
-				.style("fill", 'none')
+				.attr('class', 'line')
+				.attr('d', line)
+				.style('fill', 'none')
 				.attr('stroke-width', 1)
 				.attr('stroke', 'black')
 
-			var rect = group.append('rect')
-			.attr({'width': chart_width, 'height' : chart_height})
-			.style('fill', 'white')
-			.transition()
-			.duration(2500)
-			.attr("width", 0)
-			.attr("transform", "translate(" + chart_width + ",0)")
+			var totalLength = path.node().getTotalLength();
 
-			console.log('done')
+		    path
+		      .attr("stroke-dasharray", totalLength + " " + totalLength)
+		      .attr("stroke-dashoffset", totalLength)
+		      .transition()
+		        .duration(2000)
+		        .ease("linear")
+		        .attr("stroke-dashoffset", 0);
 		}
 		
 
