@@ -252,7 +252,7 @@
   			hoverText.text('' + reformat(chartx))
   			hoverText2.text('' + charty)
 
-			hoverGroup.transition().attr('transform', 'translate('+ mousex + ',' + (mousey - 15) + ')')
+			hoverGroup.attr('transform', 'translate('+ mousex + ',' + (mousey - 15) + ')')
 
 	    })
 	    svg.on('mouseout', function (d){
