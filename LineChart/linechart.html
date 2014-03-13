@@ -15,7 +15,7 @@
 		.line {
 		  fill: none;
 		  stroke: steelblue;
-		  stroke-width: 1.5px;
+		  stroke-width: 2px;
 		}
 
 	</style>
@@ -29,6 +29,9 @@
 	</body>
 	<script type='text/javascript'>
 
+		//**********************************************************************************
+		// Sample Data
+		//**********************************************************************************
 		var data = 
 		[
 			['1-Jan-14', 50],
@@ -46,25 +49,51 @@
 
 		]
 
+		//**********************************************************************************
+		// General use variables for later use
+		//**********************************************************************************
 		var  width = 600, height = 600, chart_width = width - 100, chart_height = height - 100;
 
+		//**********************************************************************************
+		// Appending the SVG to the body
+		//**********************************************************************************
 		var svg = d3.select('body').append('svg')
 		.attr({'width': width, 'height' : height})
 
+		//**********************************************************************************
+		// appending a group to the svg.  Note You could append everthing directly to the 
+		// svg.  It is good practice to append things to groups so you can manipulate them
+		// as a group instead of translating, scaling, or rotating them all independantly
+		// use a group when you want to manipulate clusters of items together.
+		//**********************************************************************************
 		var group = svg.append('g')
 		.attr("transform", "translate(50, 50)")
 
-
+		//**********************************************************************************
+		// D3 parse function.  This ParseObject can parse our custom time format into date
+		// objects
+		//**********************************************************************************
 		var parseDate = d3.time.format('%d-%b-%y').parse;
 
-
+		//**********************************************************************************
+		// Setting up the x axis scale we'll add the min and max later
+		//**********************************************************************************
 		var x = d3.time.scale()
 	    .range([0, chart_width]);
 
+	    //**********************************************************************************
+	    // Setting up the y axis scale again we'll ad the min and max later
+	    //**********************************************************************************
 		var y = d3.scale.linear()
 	    .range([chart_height, 0]);
 
-
+	    //**********************************************************************************
+	    // Creating the x and y Axes, notice that we apply the the scale below by chaining 
+	    // it and we use on orientation to place it on the chart.  
+		//
+	    // On the xAxis we're adding a tickformater function using the same d3.time.format
+	    // only this time we're parsing a date object into the desired format.
+	    //**********************************************************************************
 	    var xAxis = d3.svg.axis()
 			.scale(x)
 		    .orient('bottom')
@@ -75,29 +104,69 @@
 		    .orient('left');
 
 
+
+		//**********************************************************************************
+		// SVG line generator.  We define how we want the line to generate by specifying
+		// values for the x and the y.  In this case we have a 2D array so we are instructing
+		// which value in the array we want for each data point via an annoymous function
+		//**********************************************************************************
 		var line = d3.svg.line()
 	    	.x(function(d) {return x(d[0]); })
 	    	.y(function(d) {return y(d[1]); });
 
 
 
+	    //**********************************************************************************
+	    // Data manipulation: Parsing the time string into a date object for d3 to utilize
+	    //**********************************************************************************
 	    data.forEach(function(d){
 	    	
 	    	d[0] = parseDate(d[0])
 	    })
 
+	    //**********************************************************************************
+	    // Setting the domain on the x and y scales for their appropriate axes.  This could
+	    // be done during the defintion I'm placing them outside to show you how d3 hasn't
+	    // utilized them yet.
+	    //**********************************************************************************
 		x.domain(d3.extent(data, function(d) { return d[0]; }));
 		y.domain(d3.extent(data, function(d) { return d[1]; }));
 
+		//**********************************************************************************
+		// Creating a group and appending it to the group we've previously created.  
+		// We're transforming this group the height of the chart down (relative to the group
+		//   that it is already in) so it ends up at the bottom of the chart.
+		// Then we apply the xAxis upon this group and now the xAxis is implemented on the 
+		// SVG group we've created
+		//**********************************************************************************
 		group.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + chart_height + ")")
 			.call(xAxis);
 
+		//**********************************************************************************
+		// Similar to above except this time with the y axis and it doesn't need a 
+		// translation
+		//**********************************************************************************
 		group.append("g")
 			.attr("class", "y axis")
 			.call(yAxis)
 
+		//**********************************************************************************
+		// Here is where the magic of d3 happens
+		// 1. We create a new path element on the svg group
+		// 2. We bind the data to it (data is in brackets because we only want one item)
+		//    unlike when we utilize a .enter() on databind but more on that in another
+		//    chart
+		// 3. We apply the class line to get our styling
+		// 4. d is the attribute on the line that defines it's shape.  Here we're setting
+		//    that attribute to the value of our svg line generator above.  (Magic)
+		// 5. Setting the fill to none so only the line is visible
+		// 6. Setting the stroke-width
+		// 7. Giving the stroke a color
+		// 
+		// Note: 6 and 7 are redundant because we've set them in our class
+		//**********************************************************************************
 		var path = group.append("path")
 			.data([data])
 			.attr("class", "line")
@@ -105,6 +174,21 @@
 			.style("fill", 'none')
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
+
+		//**********************************************************************************
+		// Getting the total length of the line for the animation
+		// The animation utilizes a stroke dash array and sets the gap equal to the entire
+		// length of the line (so nothing shows up) then iterates linearly moving the blank
+		// area equal to nothing (so the line fills in slowly and beatifully)
+		//**********************************************************************************
+		var totalLength = path.node().getTotalLength();
+
+	    path.attr("stroke-dasharray", totalLength + " " + totalLength)
+	      .attr("stroke-dashoffset", totalLength)
+	      .transition()
+	        .duration(2000)
+	        .ease("linear")
+	        .attr("stroke-dashoffset", 0);
 
 	</script>
 </html>

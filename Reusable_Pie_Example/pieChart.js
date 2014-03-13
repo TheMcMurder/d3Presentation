@@ -9,6 +9,7 @@ var pieChart = function(container_group, data){
 pieChart.prototype = {
 
 	init: function(container_group, data){
+
 		this.data = data;
 		this.color = d3.scale.category20();
 		this.height = 500;
@@ -131,7 +132,7 @@ pieChart.prototype = {
 		//update here
 		
 
-		// this.arcs.attr("d", arc)	
+		this.arcs.attr("d", arc)	
 
 		this.tween();
 
@@ -178,6 +179,8 @@ pieChart.prototype = {
 
 		this.data = data;
 		this.build(this.data)
+
+
 	}
 	
 

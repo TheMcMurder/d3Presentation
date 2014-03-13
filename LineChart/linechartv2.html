@@ -15,7 +15,7 @@
 		.line {
 		  fill: none;
 		  stroke: steelblue;
-		  stroke-width: 1.5px;
+		  stroke-width: 2px;
 		}
 
 	</style>
@@ -45,7 +45,7 @@
 
 		function dataReady(){
 
-			var margin = {top: 20, right: 20, bottom: 30, left: 50}, width = 600, height = 600, chart_width = width - 100, chart_height = height - 100;
+			var width = 600, height = 600, chart_width = width - 100, chart_height = height - 100;
 
 			var svg = d3.select('body').append('svg')
 			.attr({'width': width, 'height' : height})
@@ -75,10 +75,17 @@
 			var line = d3.svg.line()
 		    	.x(function(d) {return x(d.date); })
 		    	.y(function(d) {return y(d.Close); });
-			// var line = d3.svg.area()
-		 //    	.x(function(d) {return x(d.date); })
-		 //    	.y0(chart_height)
-		 //    	.y1(function(d) {return y(d.Close); });
+
+
+		    //**********************************************************************************
+		    // This next area is in case you want to use an area chart
+		    //**********************************************************************************
+			
+			 // var line = d3.svg.area()
+		 	//    	.x(function(d) {return x(d.date); })
+		 	//    	.y0(chart_height)
+			 //   	.y1(function(d) {return y(d.Close); });
+		 	
 
 
 			x.domain(d3.extent(data, function(d) { return d.date; }));
