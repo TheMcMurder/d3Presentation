@@ -14,7 +14,7 @@ var face_group = svg.append('g')
 var face = face_group.append('circle')
 	.attr({'cx': 0, 'cy': 0, 'r':250})
 
-face.style('fill', 'orange')
+face.style('fill', '#FFCC11')
 
 //**********************************************************************************
 // Eyes
