@@ -5,7 +5,9 @@ body.selectAll("*").remove();
 var svg = body.append('svg')
 	.attr({'height': 1000, 'width': 1000})
 
-//face
+//**********************************************************************************
+// Face
+//**********************************************************************************
 var face_group = svg.append('g')
 	.attr('transform', 'translate(300,300)')
 
@@ -14,16 +16,22 @@ var face = face_group.append('circle')
 
 face.style('fill', 'orange')
 
-//eyes
+//**********************************************************************************
+// Eyes
+//**********************************************************************************
 var eyegroup = face_group.append('g')
 	.attr('transform', 'translate(-75, -75)')
 
 
-//left white
+//**********************************************************************************
+// left White
+//**********************************************************************************
 eyegroup.append('circle')
 	.attr({'cx': 0, 'cy': 0, 'r':30})
 	.style('fill', 'white')
-// right white
+//**********************************************************************************
+// Right White
+//**********************************************************************************
 eyegroup.append('circle')
 	.attr({'cx': 150, 'cy': 0, 'r':30})
 	.style('fill', 'white')
@@ -31,23 +39,33 @@ eyegroup.append('circle')
 var pupil_group = eyegroup.append('g')
 .attr('transform', 'translate(-15,0)')
 
-//left pupil
+//**********************************************************************************
+// left pupil
+//**********************************************************************************
 pupil_group.append('circle')
 	.attr({'cx': 0, 'cy': 0, 'r':10})
 	.style('fill', 'black')
 
-//right pupil
+//**********************************************************************************
+// right pupil
+//**********************************************************************************
 pupil_group.append('circle')
 	.attr({'cx': 150, 'cy': 0, 'r':10})
 	.style('fill', 'black')
 
 
-//smile
+//**********************************************************************************
+// smile
+//**********************************************************************************
 
-//smile group
+//**********************************************************************************
+// smileGroup
+//**********************************************************************************
 var smile_group = face_group.append('g')
 	.attr('transform', 'translate(0, 100)')
-//smile line
+//**********************************************************************************
+// smile Line
+//**********************************************************************************
 smile_group.append('line')
 	.attr('x1', -50)
 	.attr('y1', 0)
@@ -56,6 +74,20 @@ smile_group.append('line')
 	.attr('stroke', 'black')
 	.attr('stroke-width', 5)
 
+//**********************************************************************************
+// interval function:
+//
+// this native javascipt function is set on repeat.  Every 2 seconds it will fire
+// until you clear the interval with the clearInterval function
+//
+//   This interval is translating the pupil_group to the right 15 pixels every 2
+//   seconds.  It also calls the setTimeout function which operates exactly like an
+//   interval except it only fires once.  
+//   
+//   In short the interval moves the eyes every two seconds but once it fires the 
+//   timeout waits one second then moves them back.  Creating once second (1000 ms)
+//   on each side
+//**********************************************************************************
 var interval = setInterval(function(){
 	pupil_group.transition()
 		.attr('transform', 'translate(15, 0)')
