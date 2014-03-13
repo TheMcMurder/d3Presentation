@@ -15,7 +15,7 @@
 		.line {
 		  fill: none;
 		  stroke: steelblue;
-		  stroke-width: 2px;
+		  stroke-width: 5px;
 		}
 
 	</style>
@@ -189,6 +189,78 @@
 	        .duration(2000)
 	        .ease("linear")
 	        .attr("stroke-dashoffset", 0);
+
+	    //**********************************************************************************
+	    // Appending the hover effects
+	    //**********************************************************************************
+	    
+	    var reformat = d3.time.format('%d-%b-%y')
+
+	    var hoverGroup = svg.append('g')
+
+	    var tooltip = hoverGroup.append('path')
+	    	.attr('d', 'M0,0l-5 -5h-40a5,5 0 0 1 -5,-5v-40a5,5 0 0 1 5,-5h90a5,5 0 0 1 5,5v40a5,5 0 0 1 -5,5h-40l-5 5z')
+	    	.style('fill', 'steelblue')
+		var hoverText = hoverGroup.append('text')
+			.text('hello')
+			.style("text-anchor", "middle")
+			.style("font-family", "Open Sans")
+			.attr("transform", "translate(" + 0 + "," + (-33) + ")")
+			.style("fill", "white")
+			.style("font-size", 14)
+
+		var hoverText2 = hoverGroup.append('text')
+			.text('hello')
+			.style("text-anchor", "middle")
+			.style("font-family", "Open Sans")
+			.attr("transform", "translate(" + 0 + "," + (-18) + ")")
+			.style("fill", "white")
+			.style("font-size", 14)
+
+	    path.on('mouseover', function (d){
+
+	    	tooltip.attr('d', 'M0,0l-5 -5h-40a5,5 0 0 1 -5,-5v-40a5,5 0 0 1 5,-5h90a5,5 0 0 1 5,5v40a5,5 0 0 1 -5,5h-40l-5 5z')
+	    	var mousex, mousey, chartx, charty;
+
+	    	mousex = d3.mouse(svg.node())[0]
+	    	mousey = d3.mouse(svg.node())[1]
+			charty = y.invert(mousey);
+  			chartx = x.invert(mousex);
+
+  			charty = charty * 1000
+  			charty = Math.floor(charty)
+  			charty = charty/1000
+
+  			hoverText.text('' + reformat(chartx))
+  			hoverText2.text('' + charty)
+
+			hoverGroup.attr('transform', 'translate('+ mousex + ',' + (mousey - 15) + ')')
+
+	    })
+	    path.on('mousemove', function (d){
+
+	    	
+	    	mousex = d3.mouse(svg.node())[0]
+	    	mousey = d3.mouse(svg.node())[1]
+			charty = y.invert(mousey);
+  			chartx = x.invert(mousex);
+
+  			charty = charty * 1000
+  			charty = Math.floor(charty)
+  			charty = charty/1000
+
+  			hoverText.text('' + reformat(chartx))
+  			hoverText2.text('' + charty)
+
+			hoverGroup.transition().attr('transform', 'translate('+ mousex + ',' + (mousey - 15) + ')')
+
+	    })
+	    svg.on('mouseout', function (d){
+	    	hoverText2.text('')
+	    	hoverText.text('')
+	    	tooltip.attr('d', 'M0,0')
+
+	    })
 
 	</script>
 </html>
