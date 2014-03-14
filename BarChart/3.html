@@ -43,6 +43,8 @@ var barChart = svg.append("g")
     .attr("id", "barChart")
     .attr("transform", "translate(" + chartX + "," + chartY + ")");
 
+//NEW CODE
+
 var bars = barChart.selectAll("rect.bar")
     .data(data);
 
@@ -58,6 +60,8 @@ bars.enter()
         return 200;
     })
     .style("fill", "steelblue");
+
+//END NEW CODE
 
 	</script>
 </html>

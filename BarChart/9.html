@@ -79,6 +79,8 @@ bars.enter()
     })
     .style("fill", "steelblue");
 
+//NEW CODE
+
 bars.on("mouseover", function(){
     d3.select(this)
     .transition()
@@ -88,6 +90,8 @@ bars.on("mouseover", function(){
         .transition()
         .style("fill", "steelblue");
 })
+
+//END NEW CODE
 
 var xAxis = d3.svg.axis()
     .scale(xScale)

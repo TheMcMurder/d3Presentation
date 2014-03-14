@@ -76,6 +76,9 @@ bars.enter()
     .attr("height", yScale.rangeBand())
     .style("fill", "steelblue")
     .attr("width", 0)
+    
+    //NEW CODE
+
     .transition()
         .duration(500)
         .delay(function(d,i){
@@ -84,6 +87,8 @@ bars.enter()
         .attr("width", function(d){
             return xScale(d[1]);
         })
+
+//END NEW CODE
 
 bars.on("mouseover", function(){
     d3.select(this)
@@ -120,6 +125,6 @@ var yAxisGroup = svg.append("g")
 yAxisGroup.selectAll("path, line")
     .style("fill", "none")
     .style("stroke", "black");
-    
+
 	</script>
 </html>

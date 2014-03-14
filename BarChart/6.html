@@ -55,11 +55,15 @@ var barHeight = chartHeight / data.length;
 var barMargin = barHeight * barMarginPercent;
 barHeight -= barMargin;
 
+//NEW CODE
+
 var yScale = d3.scale.ordinal()
     .domain(data.map(function(d){
         return d[0];
     }))
     .rangeRoundBands([0, chartHeight], barMarginPercent);
+
+//END NEW CODE
 
 var bars = barChart.selectAll("rect.bar")
     .data(data);

@@ -43,6 +43,8 @@ var barChart = svg.append("g")
     .attr("id", "barChart")
     .attr("transform", "translate(" + chartX + "," + chartY + ")");
 
+//NEW CODE
+
 var maxValue = d3.max(data, function(d){
     return d[1];
 });
@@ -54,6 +56,8 @@ var xScale = d3.scale.linear()
 var barHeight = chartHeight / data.length;
 var barMargin = barHeight * barMarginPercent;
 barHeight -= barMargin;
+
+//END NEW CODE
 
 var bars = barChart.selectAll("rect.bar")
     .data(data);
