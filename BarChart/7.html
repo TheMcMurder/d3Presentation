@@ -70,10 +70,10 @@ bars.enter()
     .attr("x", 0)
     .attr("y", function(d,i){
         //return i * (barHeight + barMargin);
-        return yScale(d[0]);
+        return yScale(d[0]); //NEW CODE
     })
     //.attr("height", barHeight)
-    .attr("height", yScale.rangeBand())
+    .attr("height", yScale.rangeBand()) //NEW CODE
     .attr("width", function(d){
         return xScale(d[1]);
     })
