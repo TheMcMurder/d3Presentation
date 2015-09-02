@@ -1,4 +1,4 @@
-d3Presentation
+d3Presentation For Utah JS Meetup
 ==============
 
 Presentation on D3 for BYU Information Systems Students
